@@ -6,12 +6,10 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.transaction.annotation.Transactional;
 
+import sup.test.dao.StudentDao;
 import sup.test.entity.Student;
-import sup.test.spring.SpringConfigurer;
 
 public class StudentMain {
 
@@ -22,11 +20,13 @@ public class StudentMain {
 		
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("two-phase-spring.xml");
 		
+		StudentDao stuDao=new StudentDao();
 		System.out.println("Save starting");
 		Student stuObj=new Student();
 		stuObj.setID(123);
 		stuObj.setStudentName("supreeth");
-		saveObject(stuObj);
+		stuDao.saveStudent(stuObj);
+//		saveObject(stuObj);
 		System.out.println("Save done!!");
 	}
 	
@@ -55,24 +55,4 @@ public class StudentMain {
 		}
 	}
 	
-	@Transactional
-	public static void saveObjectNew(Object obj) {
-			
-			EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpa-student");
-	
-			EntityManager em = emf.createEntityManager();
-	
-			// Creating a new transaction.
-			EntityTransaction tx = em.getTransaction();
-	
-			tx.begin();
-			
-			em.merge(obj);
-	
-			tx.commit();
-	
-			// Closing connection.
-			em.close();
-			emf.close();
-	}
 }
