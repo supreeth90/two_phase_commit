@@ -16,7 +16,7 @@ import sup.test.dao.StudentDao;
 import sup.test.entity.Student;
 
 @ComponentScan(basePackages = "sup.test")
-@ImportResource({ "classpath:jpaConfig.xml" })
+@ImportResource({ "classpath:btmjpa.xml" })
 public class StudentMain {
 	
 	@Autowired

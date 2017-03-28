@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+     
+     <context:property-placeholder location="classpath:persistence-mysql.properties" />
+     
+     <bean id="bitronixTMConfig" factory-method="getConfiguration"  class="bitronix.tm.TransactionManagerServices">
+	    <!--Disabling Jmx avoids registering JMX Beans to any container-->
+	    <!-- <property name="disableJmx" value="true" /> -->
+	 </bean>
+	
+	<bean id="bitronixTM" factory-method="getTransactionManager" class="bitronix.tm.TransactionManagerServices" depends-on="bitronixTMConfig" destroy-method="shutdown"/>
+	
+	<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+	    <property name="transactionManager" ref="bitronixTM" />
+	    <property name="userTransaction" ref="bitronixTM" />
+	    <!-- <property name="entityManagerFactory" ref="myEmf" /> -->
+	    <property name="allowCustomIsolationLevels" value="true" />
+	</bean>
+     
+    <bean id="xaDataSource" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close">
+    <property name="uniqueName" value="xaDataSource" />
+    <property name="minPoolSize" value="1" />
+    <property name="maxPoolSize" value="4" />
+<!--     <property name="testQuery" value="SELECT 1 FROM dual" /> -->
+    <property name="driverProperties">
+        <props>
+    <prop key="URL">jdbc:mysql://10.10.0.136:3306/spring_jpa_01?createDatabaseIfNotExist=true</prop>
+            <prop key="user">student</prop>
+            <prop key="password">password</prop>
+        </props>
+     </property>
+     <property name="className" value="com.mysql.jdbc.jdbc2.optional.MysqlXADataSource" />
+     <property name="allowLocalTransactions" value="true" />
+	</bean>
+	
+	<bean id="myEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="jtaDataSource" ref="xaDataSource" />
+        <property name="persistenceUnitName" value="pu1"/>
+        <property name="packagesToScan" value="sup.test.entity" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+            <!-- <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+                <property name="generateDdl" value="${jpa.generateDdl}" />
+                <property name="databasePlatform" value="${persistence.dialect}" />
+            </bean> -->
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.transaction.manager_lookup_class">org.hibernate.transaction.BTMTransactionManagerLookup</prop>
+                <prop key="hibernate.transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</prop>
+                <prop key="hibernate.id.new_generator_mappings">false</prop>
+                <prop key="hibernate.connection.autocommit">false</prop>
+                <prop key="hibernate.connection.release_mode">on_close</prop>
+                <prop key="hibernate.current_session_context_class">jta</prop>
+                <prop key="hibernate.jndi.class">bitronix.tm.jndi.BitronixInitialContextFactory</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <bean id="persistenceExceptionTranslationPostProcessor" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+    <tx:annotation-driven />
+    <tx:jta-transaction-manager/>
+    
+
+</beans>

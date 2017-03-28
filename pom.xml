@@ -8,7 +8,7 @@
 		<jpa.version>2.4.2</jpa.version>
 		<slf4j.version>1.7.5</slf4j.version>
 		<junit.version>4.11</junit.version>
-		<mysql_version>6.0.5</mysql_version>
+		<mysql_version>5.1.6</mysql_version>
 	</properties>
 	<dependencies>
 		<!-- MySQL DB -->
@@ -62,6 +62,14 @@
 		    <artifactId>javax.inject</artifactId>
 		    <version>1</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.codehaus.btm/btm -->
+		<dependency>
+		    <groupId>org.codehaus.btm</groupId>
+		    <artifactId>btm</artifactId>
+		    <version>2.1.4</version>
+		</dependency>
+		
 		
 		<!-- https://mvnrepository.com/artifact/org.codehaus.btm/btm -->
 <!-- 		<dependency>

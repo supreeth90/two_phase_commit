@@ -12,7 +12,7 @@ import sup.test.entity.Student;
 @Component
 public class StudentDao {
 
-	@PersistenceContext
+	@PersistenceContext(unitName="pu1")
     private EntityManager em;
 	
 	@Transactional
