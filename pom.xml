@@ -17,13 +17,44 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql_version}</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-core</artifactId>
+		    <version>5.2.9.Final</version>
+		</dependency>
+		
+		<!--  Hibernate -->
+		<!-- <dependency>
+		   <groupId>org.hibernate</groupId>
+		   <artifactId>hibernate-entitymanager</artifactId>
+		   <version>4.3.5.Final</version>
+		   <scope>runtime</scope>
+		</dependency> -->
+		
+		<!-- https://mvnrepository.com/artifact/javax.persistence/persistence-api -->
+<!-- 		<dependency>
+		    <groupId>javax.persistence</groupId>
+		    <artifactId>persistence-api</artifactId>
+		    <version>1.0.2</version>
+		</dependency> -->
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+<!-- 		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-jdbc</artifactId>
+		    <version>4.3.7.RELEASE</version>
+		</dependency> -->
+		
+ 
 
 		<!-- JPA -->
-		<dependency>
+<!-- 		<dependency>
 			<groupId>org.apache.openjpa</groupId>
 			<artifactId>openjpa</artifactId>
 			<version>${jpa.version}</version>
-		</dependency>
+		</dependency> -->
 		
 		<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
 		<dependency>
@@ -33,11 +64,11 @@
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.codehaus.btm/btm -->
-		<dependency>
+<!-- 		<dependency>
 		    <groupId>org.codehaus.btm</groupId>
 		    <artifactId>btm</artifactId>
 		    <version>2.1.4</version>
-		</dependency>
+		</dependency> -->
         
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
 		<dependency>
